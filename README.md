@@ -1,6 +1,6 @@
 # Autonomous Sumobot v1.0
 
-Disclaimer: I have never written C or C++ before. I am learning as I go. The code contained within this repository is my first attempt at creating a totally autonomous robot for the [Sacramento MakerHQ RoboSumo](http://www.makerhq.org/robosumo) competition using a wooden [Sumobot JR chassis](https://github.com/makenai/sumobot-jr). Many of the test are ripped straight from the Arduino education pages, or from the library developers and modified for my usage.
+_**Disclaimer:** I have never written C or C++ before. I am learning as I go. The code contained within this repository is my first attempt at creating a totally autonomous robot for the [Sacramento MakerHQ RoboSumo](http://www.makerhq.org/robosumo) competition using a wooden [Sumobot JR chassis](https://github.com/makenai/sumobot-jr). Many of the test are ripped straight from the Arduino education pages, or from the library developers and modified for my usage._
 
 ## Sensors
 
@@ -31,3 +31,10 @@ Disclaimer: I have never written C or C++ before. I am learning as I go. The cod
 * Bot will attempt to seek out opponent using ultrasonic sensors
 * If opponent is found, bot will charge
 * If edge is detected, bot will backup, rotate away from edge, and continue looking for opponent
+
+## Issues
+
+* NewPing & IRremote libraries both use "timer 2" function and compiler throws a *vector_7* error on compilation. I modified *NewPing.h* library to disable the TIMMER_ENABLED value on line 153 by setting it to false.
+* Had to use small delay() functions in main loop to prevent motors from stuttering.
+* Still Using delay() instead of mills
+* Bot will not always react soon enough to edge of arena
