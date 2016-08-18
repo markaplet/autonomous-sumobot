@@ -62,6 +62,7 @@ void setup()
   MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
   stop();
   Serial.println("Setup Complete");
+  countDown();
 }
 
 
@@ -248,4 +249,17 @@ void spinRight()
     MOTOR_RIGHT.run(BACKWARD);
     delay(SPIN_DELAY);
     stop();
+}
+
+// -------------------------------
+// COUNT DOWN TIMER BEFORE BATTLE
+// -------------------------------
+void countDown()
+{
+	int i;
+	for( i = 3; i-- > 0; )
+	{
+		delay(1000);
+		Serial.println(i);
+	}
 }
