@@ -55,12 +55,12 @@ NewPing sonar(US_TRIGGER, US_ECHO, US_MAX_DISTANCE);
 // -------------------------------
 void setup()
 {
-	Serial.begin(9600);
-	MOTOR_LEFT.setSpeed(MOTOR_SPEED);
-	MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
-	stop();
-	Serial.println("Setup Complete");
-	countDown();
+  Serial.begin(9600);
+  MOTOR_LEFT.setSpeed(MOTOR_SPEED);
+  MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
+  stop();
+  Serial.println("Setup Complete");
+  countDown();
 }
 
 
@@ -71,17 +71,17 @@ void setup()
 void loop()
 {
   #ifdef DEBUG
-  	delay(1000);  // testing delay
+    delay(1000);  // testing delay
   #endif
 
-	// LEFT EDGE DETECTION
-	detectLeft();
+  // LEFT EDGE DETECTION
+  detectLeft();
 
-	// RIGHT EDGE DETECTION
-	detectRight();
+  // RIGHT EDGE DETECTION
+  detectRight();
 
-	// ULTRASONIC TIME
-	aquireTarget();
+  // ULTRASONIC TIME
+  aquireTarget();
 }
 
 
@@ -92,171 +92,171 @@ void loop()
 
 void aquireTarget()
 {
-	int distInCentimeters;  // Store the ultrasonic range distance
+  int distInCentimeters;  // Store the ultrasonic range distance
 
-	distInCentimeters = sonar.ping_cm();
+  distInCentimeters = sonar.ping_cm();
 
   #ifdef DEBUG
-  	Serial.print("    Ping Is: ");
-  	Serial.println(distInCentimeters);
+    Serial.print("    Ping Is: ");
+    Serial.println(distInCentimeters);
   #endif
 
-	if(distInCentimeters > MIN_ATTACK_DIST || distInCentimeters == 0)
-	{
+  if(distInCentimeters > MIN_ATTACK_DIST || distInCentimeters == 0)
+  {
   #ifdef DEBUG
-  		Serial.println("Keep Looking");
+    Serial.println("Keep Looking");
   #endif
-		forward();
-	}
-	else
-	{
+    forward();
+  }
+  else
+  {
   #ifdef DEBUG
-  		Serial.println("Attack");
+    Serial.println("Attack");
   #endif
-		attack();
-	}
+    attack();
+  }
 }
 
 void detectLeft()
 {
-	int frontLeftValue;     // IR edge sensor in the front
+  int frontLeftValue;     // IR edge sensor in the front
 
-	frontLeftValue = analogRead(IR_FRONT_LEFT);
+  frontLeftValue = analogRead(IR_FRONT_LEFT);
 
   #ifdef DEBUG
-  	Serial.print("Left Line Sensor: ");
-  	Serial.println(frontLeftValue);
+    Serial.print("Left Line Sensor: ");
+    Serial.println(frontLeftValue);
   #endif
 
-	if(frontLeftValue < IR_BORDER_THRESHOLD)
-	{
+  if(frontLeftValue < IR_BORDER_THRESHOLD)
+  {
   #ifdef DEBUG
-  		Serial.println("Left Edge Detected");
+    Serial.println("Left Edge Detected");
   #endif
-		backward();
-		spinRight();
-	}
+    backward();
+    spinRight();
+  }
 }
 
 void detectRight()
 {
-	int frontRightValue;    // IR edge sensor in the front
+  int frontRightValue;    // IR edge sensor in the front
 
-	frontRightValue = analogRead(IR_FRONT_RIGHT);
+  frontRightValue = analogRead(IR_FRONT_RIGHT);
 
   #ifdef DEBUG
-  	Serial.print("Right Line Sensor: ");
-  	Serial.println(frontRightValue);
+    Serial.print("Right Line Sensor: ");
+    Serial.println(frontRightValue);
   #endif
 
-	if(frontRightValue < IR_BORDER_THRESHOLD)
-	{
+  if(frontRightValue < IR_BORDER_THRESHOLD)
+  {
   #ifdef DEBUG
-  		Serial.println("Right Edge Detected");
+    Serial.println("Right Edge Detected");
   #endif
-		backward();
-		spinLeft();
-	}
+    backward();
+    spinLeft();
+  }
 }
 
 void attack()
 {
   #ifdef DEBUG
-  	Serial.println("I'm giving her all she's got captain!");
+    Serial.println("I'm giving her all she's got captain!");
   #endif
 
-	// Full throttle mother fucker!
-	MOTOR_LEFT.setSpeed(ATTACK_SPEED);
-	MOTOR_RIGHT.setSpeed(ATTACK_SPEED);
+  // Full throttle mother fucker!
+  MOTOR_LEFT.setSpeed(ATTACK_SPEED);
+  MOTOR_RIGHT.setSpeed(ATTACK_SPEED);
 
-	// Full Speed forward
-	MOTOR_LEFT.run(FORWARD);
-	MOTOR_RIGHT.run(FORWARD);
+  // Full Speed forward
+  MOTOR_LEFT.run(FORWARD);
+  MOTOR_RIGHT.run(FORWARD);
 }
 
 void forward()
 {
   #ifdef DEBUG
-  	Serial.println("Motor Forward");
+    Serial.println("Motor Forward");
   #endif
 
-	// Reset speed to slower speed
-	MOTOR_LEFT.setSpeed(MOTOR_SPEED);
-	MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
+  // Reset speed to slower speed
+  MOTOR_LEFT.setSpeed(MOTOR_SPEED);
+  MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
 
-	// Drive forward
-	MOTOR_LEFT.run(FORWARD);
-	MOTOR_RIGHT.run(FORWARD);
+  // Drive forward
+  MOTOR_LEFT.run(FORWARD);
+  MOTOR_RIGHT.run(FORWARD);
 }
 
 void backward()
 {
   #ifdef DEBUG
-  	Serial.println("Motor Backward");
+    Serial.println("Motor Backward");
   #endif
 
-	// Be friendly to the motor: stop it before reversing.
-	stop();
+  // Be friendly to the motor: stop it before reversing.
+  stop();
 
-	// Reset speed to slower speed
-	MOTOR_LEFT.setSpeed(MOTOR_SPEED);
-	MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
+  // Reset speed to slower speed
+  MOTOR_LEFT.setSpeed(MOTOR_SPEED);
+  MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
 
-	// Drive backwards then stop
-	MOTOR_LEFT.run(BACKWARD);
-	MOTOR_RIGHT.run(BACKWARD);
-	delay(REVERSE_DELAY);     // Backup just a little bit then stop
-	stop();
+  // Drive backwards then stop
+  MOTOR_LEFT.run(BACKWARD);
+  MOTOR_RIGHT.run(BACKWARD);
+  delay(REVERSE_DELAY);     // Backup just a little bit then stop
+  stop();
 }
 
 void stop()
 {
   #ifdef DEBUG
-  	Serial.println("Motor Stop");
+    Serial.println("Motor Stop");
   #endif
 
-	MOTOR_LEFT.run(RELEASE);
-	MOTOR_RIGHT.run(RELEASE);
+  MOTOR_LEFT.run(RELEASE);
+  MOTOR_RIGHT.run(RELEASE);
 }
 
 void spinLeft()
 {
   #ifdef DEBUG
-  	Serial.println("Spin Left");
+    Serial.println("Spin Left");
   #endif
 
-	// Be friendly to the motor: stop it before reversing.
-	stop();
+  // Be friendly to the motor: stop it before reversing.
+  stop();
 
-	// Reset speed to slower turning speed
-	MOTOR_LEFT.setSpeed(MOTOR_SPEED);
-	MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
+  // Reset speed to slower turning speed
+  MOTOR_LEFT.setSpeed(MOTOR_SPEED);
+  MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
 
-	// Turn then stop motors
-	MOTOR_LEFT.run(BACKWARD);
-	MOTOR_RIGHT.run(FORWARD);
-	delay(SPIN_DELAY);
-	stop();
+  // Turn then stop motors
+  MOTOR_LEFT.run(BACKWARD);
+  MOTOR_RIGHT.run(FORWARD);
+  delay(SPIN_DELAY);
+  stop();
 }
 
 void spinRight()
 {
   #ifdef DEBUG
-  	Serial.println("Spin Right");
+    Serial.println("Spin Right");
   #endif
 
-	// Be friendly to the motor: stop it before reversing.
-	stop();
+  // Be friendly to the motor: stop it before reversing.
+  stop();
 
-	// Reset speed to slower turning speed
-	MOTOR_LEFT.setSpeed(MOTOR_SPEED);
-	MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
+  // Reset speed to slower turning speed
+  MOTOR_LEFT.setSpeed(MOTOR_SPEED);
+  MOTOR_RIGHT.setSpeed(MOTOR_SPEED);
 
-	// Turn then stop motors
-	MOTOR_LEFT.run(FORWARD);
-	MOTOR_RIGHT.run(BACKWARD);
-	delay(SPIN_DELAY);
-	stop();
+  // Turn then stop motors
+  MOTOR_LEFT.run(FORWARD);
+  MOTOR_RIGHT.run(BACKWARD);
+  delay(SPIN_DELAY);
+  stop();
 }
 
 // -------------------------------
@@ -264,5 +264,5 @@ void spinRight()
 // -------------------------------
 void countDown()
 {
-	delay(4800);   // appox 5 seconds after reset released
+  delay(4800);   // appox 5 seconds after reset released
 }
