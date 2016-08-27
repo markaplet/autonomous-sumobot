@@ -25,7 +25,7 @@ _____ _____ _____ _____
 // -------------------------------
 // DEFINE ALL DA TINGS
 // -------------------------------
-#define DEBUG
+//#define DEBUG
 int MOTOR_SPEED             = 150;  // Slow ride...
 int ATTACK_SPEED            = 255;  // Fuck that bitch up!
 int REVERSE_DELAY           = 300;  // Used for short backups
@@ -45,9 +45,7 @@ NewPing sonar(US_TRIGGER, US_ECHO, US_MAX_DISTANCE);
 // IR Line Sensors
 #define IR_FRONT_LEFT         A4    // Front left edge IR sensor
 #define IR_FRONT_RIGHT        A5    // Front right edge IR sensor
-#define IR_REAR               A3    // Rear edge IR sensor
 #define IR_BORDER_THRESHOLD   600   // White edge is ~550 while black is ~900
-
 
 
 
@@ -72,7 +70,6 @@ void setup()
 // -------------------------------
 void loop()
 {
-
   #ifdef DEBUG
     delay(1000);  // testing delay
   #endif
@@ -81,7 +78,6 @@ void loop()
   int distInCentimeters;  // Store the ultrasonic range distance
   int frontLeftValue;     // IR edge sensor in the front
   int frontRightValue;    // IR edge sensor in the front
-  int rearEdgeValue;      // IR edge sensor in the back
 
   // LEFT EDGE DETECTION
   frontLeftValue = analogRead(IR_FRONT_LEFT);
@@ -113,12 +109,6 @@ void loop()
     #endif
     backward();
     spinLeft();
-  }
-
-  int backEdgeValue = analogRead(IR_REAR);
-  if(backEdgeValue > IR_BORDER_THRESHOLD)
-  {
-    // PLACEHOLDER
   }
 
   // ULTRASONIC TIME
@@ -256,10 +246,5 @@ void spinRight()
 // -------------------------------
 void countDown()
 {
-	int i;
-	for( i = 3; i-- > 0; )
-	{
-		delay(1000);
-		Serial.println(i);
-	}
+	delay(4800);
 }
