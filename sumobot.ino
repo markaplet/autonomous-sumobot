@@ -259,10 +259,32 @@ void spinRight()
   stop();
 }
 
+void dropFlags()
+{
+    MOTOR_LEFT.setSpeed(ATTACK_SPEED);
+    MOTOR_RIGHT.setSpeed(ATTACK_SPEED);
+
+    // Reverse to lower front flag
+    MOTOR_LEFT.run(BACKWARD);
+    MOTOR_RIGHT.run(BACKWARD);
+    delay(200);
+
+    // Spin Right
+    MOTOR_LEFT.run(FORWARD);
+    MOTOR_RIGHT.run(BACKWARD);
+    delay(200);
+
+    // Spin Left
+    MOTOR_LEFT.run(BACKWARD);
+    MOTOR_RIGHT.run(FORWARD);
+    delay(500);
+}
+
 // -------------------------------
 // COUNT DOWN TIMER BEFORE BATTLE
 // -------------------------------
 void countDown()
 {
-  delay(4800);   // appox 5 seconds after reset released
+    delay(3200);
+    dropFlags();
 }
